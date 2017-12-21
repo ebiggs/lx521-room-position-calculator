@@ -2,6 +2,10 @@ export class Vec2 {
   
   constructor(readonly x: number, readonly y: number) { }
 
+  toPojo() {
+    return ({ x: this.x, y: this.y })
+  }
+
   toString(formatter: (number) => string) {
     return `(${formatter(this.x)}, ${formatter(this.y)})`;
   }
@@ -56,6 +60,10 @@ export class Vec2 {
   public static fromRads(rads: number) {
     return new Vec2(Math.cos(rads), Math.sin(rads))
   }
+
+  public static fromPojo(pojo: {x: number, y: number}) {
+    return new Vec2(pojo.x, pojo.y)
+  }
 }
 
 export type LineSegment = {
@@ -65,6 +73,10 @@ export type LineSegment = {
   
 export class Ray2 {
   constructor(readonly position: Vec2, readonly direction: Vec2) {}
+
+  toPojo() {
+    return ({ position: this.position.toPojo(), direction: this.direction.toPojo() })
+  }
 
   changePosition(position: Vec2) {
     return new Ray2(position, this.direction);
@@ -93,6 +105,10 @@ export class Ray2 {
      ) : (
        undefined
      );
+  }
+
+  public static fromPojo(pojo: { position: {x: number, y: number}, direction: {x: number, y: number} }) {
+    return new Ray2(Vec2.fromPojo(pojo.position), Vec2.fromPojo(pojo.direction));
   }
 }
 

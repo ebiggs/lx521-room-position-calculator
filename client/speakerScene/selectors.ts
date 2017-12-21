@@ -7,8 +7,14 @@ import {
 
 export const inputsSelector = createSelector(
   state => state['speakerScene'],
-  inputs => {
-    const theInputs: Inputs = inputs
+  inputState => {
+    const theInputs: Inputs = {
+      roomDimensions: Vec2.fromPojo(inputState.roomDimensions),
+      minWallOffsets: inputState.minWallOffsets,
+      sweetSpot: Ray2.fromPojo(inputState.sweetSpot),
+      speakerSpan: inputState.speakerSpan,
+      unitOfMeasure: inputState.unitOfMeasure
+    }
     return theInputs;
   }
 );
