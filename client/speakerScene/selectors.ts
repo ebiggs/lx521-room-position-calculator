@@ -126,50 +126,50 @@ export const specificationsSelector = createSelector(
   inputsSelector,
   computeRoomBounds,
   outputsSelector,
-  (inputs, roomBounds, speakerPos) => {
-    if(speakerPos.left && speakerPos.right) {
-    const leftToeInDistance = speakerPos.left.toeIn ? inputs.sweetSpot.position.minus(speakerPos.left.toeIn.pos).length() : undefined;
-    const rightToeInDistance = speakerPos.right.toeIn ? inputs.sweetSpot.position.minus(speakerPos.right.toeIn.pos).length() : undefined;
-  
-    const area = inputs.roomDimensions.x * inputs.roomDimensions.y
-  
-    const speakerSeparation = speakerPos.left.pos.minus(speakerPos.right.pos).length();
-  
-    const listeningDistance = speakerPos.left.pos.minus(inputs.sweetSpot.position).length();
-  
-    const lBackWallOffset = speakerPos.left.reflections.back.wallIsect.minus(speakerPos.left.pos).length()
-    const rBackWallOffset = speakerPos.right.reflections.back.wallIsect.minus(speakerPos.right.pos).length()
-  
-    const lSideWallOffset = speakerPos.left.reflections.side.wallIsect.minus(speakerPos.left.pos).length()
-    const rSideWallOffset = speakerPos.right.reflections.side.wallIsect.minus(speakerPos.right.pos).length()
-  
-    const leftSpec = {
-      toeInDistance: { isToSpec: true, value: leftToeInDistance },
-      backWallOffset: { isToSpec: (lBackWallOffset >= 4), value: lBackWallOffset },
-      sideWallOffset: { isToSpec: (lSideWallOffset >= 2), value: lSideWallOffset }
-    }
-  
-    const rightSpec = {
-      toeInDistance: { isToSpec: true, value: rightToeInDistance },
-      backWallOffset: { isToSpec: (rBackWallOffset >= 4), value: rBackWallOffset },
-      sideWallOffset: { isToSpec: (rSideWallOffset >= 2), value: rSideWallOffset }
-    }
-  
-    return {
-      left: leftSpec,
-      right: rightSpec,
-      area: { isToSpec: (area >= 240), value: area },
-      speakerSeparation: { isToSpec: (speakerSeparation >= 8), value: speakerSeparation},
-      listeningDistance:  { isToSpec: (listeningDistance >= 8 && listeningDistance <= 18), value: listeningDistance}
-    }
+  (inputs, roomBounds, speakers) => {
+    if(speakers.left && speakers.right) {
+      const leftToeInDistance = speakers.left.toeIn ? inputs.sweetSpot.position.minus(speakers.left.toeIn.pos).length() : undefined;
+      const rightToeInDistance = speakers.right.toeIn ? inputs.sweetSpot.position.minus(speakers.right.toeIn.pos).length() : undefined;
+    
+      const area = inputs.roomDimensions.x * inputs.roomDimensions.y
+    
+      const speakerSeparation = speakers.left.pos.minus(speakers.right.pos).length();
+    
+      const listeningDistance = speakers.left.pos.minus(inputs.sweetSpot.position).length();
+    
+      const lBackWallOffset = speakers.left.reflections.back.wallIsect.minus(speakers.left.pos).length()
+      const rBackWallOffset = speakers.right.reflections.back.wallIsect.minus(speakers.right.pos).length()
+    
+      const lSideWallOffset = speakers.left.reflections.side.wallIsect.minus(speakers.left.pos).length()
+      const rSideWallOffset = speakers.right.reflections.side.wallIsect.minus(speakers.right.pos).length()
+    
+      const leftSpec = {
+        toeInDistance: { isToSpec: true, value: leftToeInDistance },
+        backWallOffset: { isToSpec: (lBackWallOffset >= 4), value: lBackWallOffset },
+        sideWallOffset: { isToSpec: (lSideWallOffset >= 2), value: lSideWallOffset }
+      }
+    
+      const rightSpec = {
+        toeInDistance: { isToSpec: true, value: rightToeInDistance },
+        backWallOffset: { isToSpec: (rBackWallOffset >= 4), value: rBackWallOffset },
+        sideWallOffset: { isToSpec: (rSideWallOffset >= 2), value: rSideWallOffset }
+      }
+    
+      return {
+        left: leftSpec,
+        right: rightSpec,
+        area: { isToSpec: (area >= 240), value: area },
+        speakerSeparation: { isToSpec: (speakerSeparation >= 8), value: speakerSeparation},
+        listeningDistance:  { isToSpec: (listeningDistance >= 8 && listeningDistance <= 18), value: listeningDistance}
+      }
     } else {
-    return {
-      left: { toeInDistance: { isToSpec: false, value: undefined }, backWallOffset: { isToSpec: false, value: undefined }, sideWallOffset: { isToSpec: false, value: undefined } },
-      right: { toeInDistance: { isToSpec: false, value: undefined }, backWallOffset: { isToSpec: false, value: undefined }, sideWallOffset: { isToSpec: false, value: undefined } },
-      area: { isToSpec: false, value: undefined },
-      speakerSeparation: { isToSpec: false, value: undefined },
-      listeningDistance: { isToSpec: false, value: undefined }
-    }
+      return {
+        left: { toeInDistance: { isToSpec: false, value: undefined }, backWallOffset: { isToSpec: false, value: undefined }, sideWallOffset: { isToSpec: false, value: undefined } },
+        right: { toeInDistance: { isToSpec: false, value: undefined }, backWallOffset: { isToSpec: false, value: undefined }, sideWallOffset: { isToSpec: false, value: undefined } },
+        area: { isToSpec: false, value: undefined },
+        speakerSeparation: { isToSpec: false, value: undefined },
+        listeningDistance: { isToSpec: false, value: undefined }
+      }
     }
   }
 );

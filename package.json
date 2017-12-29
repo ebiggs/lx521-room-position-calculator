@@ -21,11 +21,13 @@
     "express": "4.15.2",
     "extract-text-webpack-plugin": "2.1.0",
     "lodash": "^4.17.4",
+    "rc-slider": "^8.5.0",
     "react": "16.0.0",
     "react-dom": "16.0.0",
     "react-redux": "5.0.6",
     "redux": "3.7.2",
     "redux-actions": "2.2.1",
+    "redux-logger": "^3.0.6",
     "reselect": "^3.0.1",
     "serve-static": "1.12.1",
     "yargs": "7.0.1"

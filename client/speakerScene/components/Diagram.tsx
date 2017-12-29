@@ -14,7 +14,7 @@ export class Diagram extends React.Component<DiagramProps> {
     const { inputs, outputs } = this.props;
 
     const CANVAS_WIDTH = 800;
-    const CANVAS_HEIGHT = 600;
+    const CANVAS_HEIGHT = 800;
 
     function fmtCoorSystem() {
         const margin = 10;

@@ -37,6 +37,39 @@ body {
 	outline: 0;
 }
 
+.adjuster {
+	margin-top: 5px;
+	width: 146px;
+	height: 450px;
+	background-color: white;
+    color: black;
+    border: 2px solid rgb(100, 133, 187);
+}
+
+button {
+	width: 150px;
+	height: 25px;
+	background-color: white;
+    color: black;
+    border: 2px solid rgb(100, 133, 187);
+}
+
+button:hover {
+	width: 150px;
+	height: 25px;
+	background-color: rgb(100, 133, 187);
+	border: 2px solid rgb(100, 133, 187);
+    color: white;
+}
+
+button:active {
+	width: 150px;
+	height: 25px;
+	background-color: rgb(24, 51, 94);
+	border: 2px solid rgb(24, 51, 94);
+    color: white;
+}
+
 .forkme {
 	position: absolute; 
 	top: 0; 

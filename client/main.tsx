@@ -1,11 +1,14 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { Store, createStore } from 'redux';
+import { Store, createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 
 import App from './main/components/App';
 import rootReducer from './main/reducer';
 import * as _ from 'lodash';
+ 
+// Logger with default options 
+import logger from 'redux-logger'
 
 function loadState() { 
   try {
@@ -26,7 +29,11 @@ const saveState = _.throttle((state) => {
 
 const initialState = loadState();
 
-const store: Store<any> = createStore(rootReducer, initialState);
+const store: Store<any> = createStore(
+  rootReducer,
+  initialState,
+  //applyMiddleware(logger)
+)
 
 store.subscribe(() => saveState(store.getState()));
 
