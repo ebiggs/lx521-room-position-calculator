@@ -37,23 +37,23 @@ export class ControlPanel extends React.Component<ControlPanelProps, ControlPane
     const dispatch = this.props.dispatch;
 
     const updateRoomX = 
-      (x: number) => dispatch(setRoomDimensions(x, inputs.roomDimensions.y));
+      (x: number) => dispatch(setRoomDimensions(x, this.props.inputs.roomDimensions.y));
     const updateRoomY = 
-      (y: number) => dispatch(setRoomDimensions(inputs.roomDimensions.x, y));
+      (y: number) => dispatch(setRoomDimensions(this.props.inputs.roomDimensions.x, y));
     const updateWallOffset = 
       (wall: string) => (offset: number) => dispatch(setMinWallOffset(wall, offset));
     const updateSweetSpotX = 
-      (x: number) => dispatch(setSweetSpotPosition(x, inputs.sweetSpot.position.y));
+      (x: number) => dispatch(setSweetSpotPosition(x, this.props.inputs.sweetSpot.position.y));
     const updateSweetSpotY = 
-      (y: number) => dispatch(setSweetSpotPosition(inputs.sweetSpot.position.x, y));
+      (y: number) => dispatch(setSweetSpotPosition(this.props.inputs.sweetSpot.position.x, y));
     const updateSweetSpotDir = 
       (degrees: number) => dispatch(setSweetSpotDirection(degrees));
     const updateSpeakerSpan = 
       (degrees: number) => dispatch(setSpeakerSpan(degrees));
 
     const fields = {
-      "Room Width" : { name: "Room Width", step: 1/4, min: 2, max: () => 50, value: () => this.props.inputs.roomDimensions.x, update: updateRoomX, format: "distance" },
-      "Room Length" : { name: "Room Length", step: 1/4, min: 2, max: () => 50, value: () => this.props.inputs.roomDimensions.y, update: updateRoomY, format: "distance" },
+      "Room Width" : { name: "Room Width", step: 1/4, min: 1, max: () => 50, value: () => this.props.inputs.roomDimensions.x, update: updateRoomX, format: "distance" },
+      "Room Length" : { name: "Room Length", step: 1/4, min: 1, max: () => 50, value: () => this.props.inputs.roomDimensions.y, update: updateRoomY, format: "distance" },
       "Sweet Spot X" : { name: "Sweet Spot X", step: 1/12, min: 0, max: () => this.props.inputs.roomDimensions.x, value: () => this.props.inputs.sweetSpot.position.x, update: updateSweetSpotX, format: "distance" },
       "Sweet Spot Y" : { name: "Sweet Spot Y", step: 1/12, min: 0, max: () => this.props.inputs.roomDimensions.y, value: () => this.props.inputs.sweetSpot.position.y, update: updateSweetSpotY, format: "distance" },
       "Sweet Spot Θ" : { name: "Sweet Spot Θ", step: 1/12, min: 0, max: () => 180, value: () => this.props.inputs.sweetSpot.direction.angleDeg(), update: updateSweetSpotDir, format: "angle" },
@@ -76,8 +76,9 @@ export class ControlPanel extends React.Component<ControlPanelProps, ControlPane
     )
   }
 
-  renderFieldAdjuster() {
-    const  field = this.state.fields[this.state.selectedField];
+  renderFieldAdjuster(field: FieldState) {
+    //const  field = this.state.fields[this.state.selectedField];
+    const isVisible = this.state.fields[this.state.selectedField].name === field.name;
 
     const ft: number = Math.floor(field.value());
     const inches: number = Math.round((field.value() - ft)*12);
@@ -98,7 +99,7 @@ export class ControlPanel extends React.Component<ControlPanelProps, ControlPane
     const cmChange = (cm: number) => updateField((m * 100 + cm) / 30.48);
 
     return (
-      <div className="adjuster">
+      <div key={field.name} className="adjuster" style={{ display: (isVisible? 'block' : 'none')}}>
         <b>Set {field.name}:</b>
         <br />
         { field.format === 'angle' ? (
@@ -149,6 +150,7 @@ export class ControlPanel extends React.Component<ControlPanelProps, ControlPane
       (uom: string) => dispatch(setUnitOfMeasure(uom));
 
     const buttons = _.map(this.state.fields, f => this.renderFieldBtn(f));
+    const adjusters = _.map(this.state.fields, f => this.renderFieldAdjuster(f));
   
     return (
       <div className="controls">
@@ -157,7 +159,7 @@ export class ControlPanel extends React.Component<ControlPanelProps, ControlPane
         <option value="m">Metric</option>
       </select>
       {buttons}
-      {this.renderFieldAdjuster()}
+      {adjusters}
     </div>
     );
   }
